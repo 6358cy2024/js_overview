@@ -1,22 +1,23 @@
-console.log(typeof 3.2);
-var age = 44;
-var isADev = true;
-var n = null;
-var notANumber = NaN;
-// This shows up in the Inspect Console on the webpage.
-console.log('Christian Yanez')
-console.log(5 + 5);
+
 var firstName = "Christian";
 var lastName = "Yanez";
-console.log(firstName);
-var nothing;
-var another;
-var fullName = firstName + ' ' + lastName;
+var age = 44;
 var names = ['John', 'Ann', 'Bob', 'Frank', 'Jane'];
-console.log(names.length);
-var ages = [30, 24, 55, 99];
-console.log(ages);
-console.log(names);
+console.log(age > 30); 
+console.log(age === '44');
+console.log(0 || null || '' || -5 || undefined); //truthy or falsey
+var oldEnough = (age >= 21);
 
-names.splice(3, 2);
-console.log(names);
+//conditionals
+if (firstName && lastName) {
+    console.log("Fullname");
+}
+else if (!firstName) {
+    console.log("please privde your first name!");
+}
+else if (!lastName) {
+    console.log("please privde your last name!");
+}
+else {
+    console.log("please provide your full name");
+}
