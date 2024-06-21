@@ -1,29 +1,34 @@
-/*make a function that takes three arguments
-number, number, operater, 
-*/
-const body = document.body;
-body.style.backgroundColor = 'red';
+const str = 'some string';
+const num = 10;
+const bol = true;
+const arr = ['John', 'Bob', 'Steve'];
 
-function calc(num1, num2, operator){
-    let result;
-    if (operator == '+'){
-        result = (num1 + num2);
-        console.log(result);
+const data = {
+    name: 'Christian',
+    age: 22,
+    info: {
+        location: 'Atl',
+        hobbies: [
+            {   
+                name: 'fishing',
+                frequency: 1//hobbies[0];
+            },
+
+            {
+                name: 'pickleball',
+                frequency: 2
+            },
+            {
+                name: 'Another',
+                frequency: 3
+            }
+        ]
     }
-    else if (operator == '-'){
-        result = (num1 - num2);
-        console.log(result);
-    }
-    else if (operator == '*'){
-        result = (num1 * num2);
-        console.log(result);
-    }
-    else if (operator == '/'){
-        result = (num1 / num2);
-        console.log(result);
-    }
-    else{
-        console.log("Invalid"); //for if operator is invalid
-    }
-}
-calc(4, 9, '-');//needs quotations
+};
+
+// const filtered = data.info.hobbies.filter(funciton (obj) {
+//     if (obj.frequency > 1){
+//         return true;
+//     }
+// })
+// console.log(data.info.hobbies[2].frequency);
