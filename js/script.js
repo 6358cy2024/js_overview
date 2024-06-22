@@ -1,34 +1,51 @@
-const str = 'some string';
-const num = 10;
-const bol = true;
-const arr = ['John', 'Bob', 'Steve'];
+//when page loads, show a button that the user clicks
+//When the button is clicked, show a prompt for first name, last name and age
+//store the 3 values to an object
+// print the data object into the browser
 
-const data = {
-    name: 'Christian',
-    age: 22,
-    info: {
-        location: 'Atl',
-        hobbies: [
-            {   
-                name: 'fishing',
-                frequency: 1//hobbies[0];
-            },
+// console.log(window.document);
+// const document = window.document;
+const gatherBtn = document.querySelector('#gather-btn');
+const h1 = document.querySelector('h1');
+console.log(gatherBtn.innerText);
+console.log(h1.style);
 
-            {
-                name: 'pickleball',
-                frequency: 2
-            },
-            {
-                name: 'Another',
-                frequency: 3
-            }
-        ]
+function gatherInfo() {
+    let firstName, lastName, age;
+    let ask = true;
+    while(ask) {
+        
+
+        if (!firstName){
+            firstName = prompt('Please enter your first name:');
+            continue;
+
+        }
+        
+        if (!lastName){
+            lastName = prompt('Please enter your last name');//returns a string
+
+            continue;
+        }
+        
+
+        if (!age || isNaN(age)){
+            age = +prompt('Please enter your age');
+            continue;
+        }
+        ask = false;
     }
-};
+    // while(!firstName|| !lastName|| !age) {
+    //     firstName = prompt('Please enter your first name:');
+    //     lastName = prompt('Please enter your last name');
+    //     age = prompt('Please enter your age');
+    // }
+    // if (!firstName|| !lastName|| !age) {
+    //     alert('You must fill out all values');
+    //     return gatherInfo();
 
-// const filtered = data.info.hobbies.filter(funciton (obj) {
-//     if (obj.frequency > 1){
-//         return true;
-//     }
-// })
-// console.log(data.info.hobbies[2].frequency);
+    // }
+
+}
+
+gatherBtn.addEventListener('click', gatherInfo);
