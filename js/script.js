@@ -1,102 +1,83 @@
-//Target the form, which is an id
-const noteForm = document.querySelector('#note-form'); 
-//Target the note header h3, which is a class
+// Target the form
+const noteForm = document.querySelector('#note-form');
+// Target the note header h3
 const noteHeader = document.querySelector('.note-header');
+
 function getNotes() {
-    const rawNotes = localStorage.getItem('notes');
+  // Pull the old data from the database(localStorage) or an empty array if no previous data has been stored
+  const rawNotes = localStorage.getItem('notes');
+  const notes = JSON.parse(rawNotes) || [];
+
+  return notes;
 }
 
-//Need a function that is called when the form is submitted
+// A function that is is called when the form is submitted
 function createNote(eventObj) {
-    eventObj.preventDefault();
-        //Grab the node input element
-    const noteInput = document.querySelector('#note-input');
-        
-        //Get the value(what they typed into the box)\
+  eventObj.preventDefault();
+  // Grab the note input element
+  const noteInput = document.querySelector('#note-input');
+  // Get the value(what they typed into the box)
+  const noteText = noteInput.value;
+  // Create a date value object
+  const dateObj = new Date(); // {}
+  
+  const month = dateObj.getMonth() + 1;
+  
+  const date = dateObj.getDate();
+  
+  const year = dateObj.getFullYear();
+  
+  const objHours = dateObj.getHours();
+  
+  const hour = objHours > 12 ? objHours - 12 : objHours;
+  // If the dateObj minutes is < 10, then add a 0
+  const objMin = dateObj.getMinutes();
+  const minutes = objMin < 10 ? '0' + objMin : objMin;
+  //without this line, it would just be 2:7. for example
+  // const dateStr = month + '/' + date + '/' + year Time;
+  
+  const dateStr = `${month}/${date}/${year} ${hour}:${minutes}`;
+  // Create an object value with the note text and the current date MM/DD/YYYY
+  // The object should have two properties - text(noteText) and date(dateStr)
+  const noteObj = {
+    text: noteText,
+    date: dateStr
+  };
 
-    const noteText = noteInput.value;
-    //create a date value object
-    const dateObj = new Date();
-    //get the month from the date object
-    const month = dateObj.getMonth() + 1;
-    //get the date from the date object
-    const date = dateObj.getDate();
-    //get the year from the date object
-    const year = dateObj.getFullYear();
-    const dateStr = `${month}/${date}/${year}`;
-    //The object should have two properties - text(noteText) and date(dateStr)
+  // Use my getNotes function to retreive the notes
+  const notes = getNotes();
 
-    const noteObj = {
-        text: noteText,
-        date: dateStr
-    };
-
-
-    //pull the old data from database(localStorage) or an empty array if no previous data has been stored
-
-    const notes = JSON.parse(localStorage.getItem('notes')) || [];//converts JSON to JS will print [] if first value is null.
-//push the noteObj to the notes array
-    notes.push(noteObj);
-    const jsonArray = JSON.stringify(notes);
-
-    localStorage.setItem('notes', jsonArray);//not ('notes', notes)
+  // Push the noteObj to the notes array
+  notes.push(noteObj);
+  const jsonArray = JSON.stringify(notes);
+  // Save the notes array to localStorage
+  localStorage.setItem('notes', jsonArray);
+  noteInput.value = '';
+  outputNotes();
 }
 
 function outputNotes() {
-    //retrieve the raw notes array from localStorage
-    const rawNotes = localStorage.getItem('notes');
-    console.log(rawNotes);
+  const notes = getNotes();
+  const container = document.querySelector('.container');
+  const notesHeader = document.querySelector('.notes-header');
+  if (notes.length) {
+    noteHeader.innerText = 'Your Notes:';
+  }
 
-    //Convert the array to JS
-
-    //loop over each object in the array and output an article element into our
+  container.innerHTML = '';
+  // Loop over each object in the array and output an article element into our main container for each object
+  for (const noteObj of notes) {
+    //Target the main container element
+    container.insertAdjacentHTML('beforeend', `
+        <article class ="note">
+            <p class="note-text">${noteObj.text}</p>
+            <p class="note-date"></p>Added: ${noteObj.date}</p>
+        </article>
+        `);//articles for every entry stored.
+  }
 }
 
 outputNotes();
 
-//Set up event listeners, wait for page to load
-
-noteForm.addEventListener('submit', createNote);//already implemented
-// localStorage.setItem('data', JSON.stringify({name: 'Christian', age: 22}));
-const rawData = localStorage.getItem('data');
-const data = JSON.parse(rawData);
-console.log(data.name);
-
-// const fruits = ['orange', ' apple' , ' grape'];
-
-//localStorage.setItem('fruits', fruits);
-// function test(one, num, str){
-//     //callback();
-//     console.log(one);
-// }
-
-// test(function() {
-//     console.log('callback called')//happens because it was called in the last line
-// }, 10, 'some strong');
-localStorage.setItem('name', 'Christian');
-//This is a callback, when a function is passed as an argument.
-
-function callback(eventObj){
-    console.log('callback called');
-}
-const el = {
-    age: 22,
-    name: 'Christian',
-    addEventListener: function(eventType, callbackFunction) {//no browser involved.
-        console.log('addEventListener called');
-        setTimeout(callbackFunction, 3000); // every 1000 is a second. calls he function callback();
-    }
-
-}
-
-
-
-//el.addEventListener();//calls the function in el, this works because its defined by a function
-el.addEventListener('click', callback);//goes to 56
-
-// function setTimeout(cb, delayTime) {
-//     cb();
-// }
-
-// setTimeout(function() {}, 10000)
-
+// Set up any necessary event listeners that should be listening when the page loads
+noteForm.addEventListener('submit', createNote);
